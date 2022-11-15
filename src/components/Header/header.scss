@@ -1,0 +1,40 @@
+.header_top{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    align-items: center;
+    margin-bottom: var(--base-size);
+
+    .header_top_left{
+        display: flex;
+        align-items: center;
+
+        .header_hamburger{
+            display: flex;
+            align-items: center;
+            margin-right: 1rem;
+            cursor: pointer;
+            svg{
+                path{
+                    stroke: var(--text-color);
+                }
+               
+            }
+
+            &:hover{
+                svg{
+                    path{
+                        stroke: var(--primary-color);
+                    }
+                   
+                }
+            }
+        }
+    }
+
+    .header_top_right{
+        display: flex;
+        justify-content: flex-end;
+        gap:1rem;
+        align-items: center;
+    }
+}

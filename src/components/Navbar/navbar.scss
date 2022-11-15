@@ -1,0 +1,125 @@
+.aside{
+    background-color: var(--primary-color);
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    transform: translateY(-100%);
+    min-height: 100vh;
+    
+    @media (min-width:768px) {
+        padding: 4rem 0;
+        position: unset;
+        transform: unset;
+        border-top-right-radius: var(--radius-lg);
+        border-bottom-right-radius: var(--radius-lg);
+    }
+
+    &.aside_toggle{
+        transform: translateY(0%);
+        width: 100%;
+        z-index: 1;
+
+        @media (min-width:768px) {
+            display: none;
+        }
+    }
+}
+
+.nav_close{
+    margin: 2rem 2rem 0 0;
+    text-align: end;
+    svg{
+        fill: var(--secondary-color);
+    }
+    @media (min-width:768px) {
+        display: none;
+    }
+}
+
+.nav_logo{
+    margin-bottom: var(--base-size);
+    display: flex;
+    justify-content: center;
+}
+
+.nav{
+    .nav_links{
+        .nav_link{
+            padding: 1.5rem 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+           &::before{
+            content: "";
+            transition: var(--transition-all);
+           }
+            
+            .nav_links_icon{
+                display: flex;
+                align-items: center;
+                transition: var(--transition-all);
+                padding: 0.5rem;
+            }
+            a{
+                color:var(--secondary-color);
+                font-weight:500;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                transition: var(--transition-all);
+                min-width:7vw;
+
+                &.nav_link_active{
+                    svg{
+                        fill:var(--primary-color)
+                    }
+                    .nav_links_icon{
+                        background-color: var(--secondary-color);
+                        border-radius: 50%;
+                        
+                    }
+    
+                   
+                    &:before{
+                        content: "";
+                        position: absolute;
+                        left: 0;
+                        top: 0;
+                        width: 5px;
+                        height: 50%;
+                        transform: translateY(50%);
+                        background-color: var(--secondary-color);
+                    }
+                   
+                }
+
+             
+            }
+
+            &:hover{
+                svg{
+                    fill:var(--primary-color)
+                }
+                .nav_links_icon{
+                    background-color: var(--secondary-color);
+                    border-radius: 50%;
+                    
+                }
+
+               
+                &:before{
+                    content: "";
+                    position: absolute;
+                    left: 0;
+                    top: 0;
+                    width: 5px;
+                    height: 50%;
+                    transform: translateY(50%);
+                    background-color: var(--secondary-color);
+                }
+               
+            }
+        }
+    }
+}
