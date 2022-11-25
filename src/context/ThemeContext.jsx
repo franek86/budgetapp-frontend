@@ -1,53 +1,41 @@
-import { useState,useEffect, createContext, useContext } from "react";
+import { useEffect, createContext, useContext, useReducer } from "react";
+import { getStorageTheme } from "../utils/LocalStorage.js";
+import reducer from "../reducers/theme_reducer.js";
+import { TOGGLE_MENU, CLOSE_MENU, TOGGLE_THEME, TOGGLE_DROPDOWN } from "../actions.js";
 
 const ThemeContext = createContext();
 
+const initialState = {
+  darkMode: getStorageTheme(),
+  toggleMenu: false,
+  dropdown: false,
+};
 
-const getStorageTheme = () =>{
-    let theme = "light_theme";
-    if(localStorage.getItem("theme")){
-        theme = localStorage.getItem("theme")
-    }
-    return theme
-}
+export const ThemeProvider = ({ children }) => {
+  const [state, dispatch] = useReducer(reducer, initialState);
 
-export const ThemeProvider = ({children}) => {
+  const handleTheme = () => {
+    dispatch({ type: TOGGLE_THEME });
+    localStorage.setItem("theme", state.darkMode);
+  };
 
+  const handleCloseMenu = () => {
+    dispatch({ type: CLOSE_MENU });
+  };
+  const handleToggleMenu = () => {
+    dispatch({ type: TOGGLE_MENU });
+  };
+  const toggleDropdown = () => {
+    dispatch({ type: TOGGLE_DROPDOWN });
+  };
 
-    const [darkMode, setDarkMode] = useState(getStorageTheme());
-    const [toggleMenu, setToggleMenu] = useState(false);
-    const [dropdown, setDropdown] = useState(false);
-   
+  useEffect(() => {
+    localStorage.setItem("theme", state.darkMode);
+  }, [state.darkMode]);
 
-    const handleTheme = () => {
-        setDarkMode((oldValue) => oldValue === "light_theme" ? "dark_theme" : "light_theme")
-        localStorage.setItem('theme',darkMode)
-    }
-
-    const handleToggleMenu = () => {
-        setToggleMenu(!toggleMenu)
-    }
-
-    const handleCloseMenu = () => {
-        setToggleMenu(false)
-    }
-
-    const toggleDropdown = () => {
-        setDropdown(!dropdown)
-    }
-
-    
-
-    useEffect(() => {
-        localStorage.setItem('theme',darkMode)
-    },[darkMode])
-
-    return<ThemeContext.Provider value={{darkMode, setDarkMode, handleTheme, toggleMenu,handleToggleMenu, handleCloseMenu, dropdown, toggleDropdown}}>
-        {children}
-    </ThemeContext.Provider>
-}
+  return <ThemeContext.Provider value={{ ...state, handleToggleMenu, handleCloseMenu, handleTheme, toggleDropdown }}>{children}</ThemeContext.Provider>;
+};
 
 export const useThemeContext = () => {
-    return useContext(ThemeContext)
-}
-
+  return useContext(ThemeContext);
+};

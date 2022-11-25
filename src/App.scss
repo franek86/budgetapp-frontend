@@ -62,8 +62,7 @@ body {
   background-color: var(--fifth-color);
 }
 
-
-.data-notfound{
+.data-notfound {
   font-size: 2.5rem;
   height: 100%;
   display: flex;
@@ -196,7 +195,7 @@ h6 {
   color: var(--text-color);
 }
 
-.text-danger{
+.text-danger {
   color: var(--danger-color);
 }
 
@@ -377,21 +376,6 @@ h6 {
           color: var(--fifth-color);
         }
       }
-
-      .react-date-picker__calendar {
-        .react-calendar {
-          border-radius: var(--radius-sm);
-          border: 1px solid var(--fifth-color);
-          &__tile--active {
-            background: var(--primary-color);
-          }
-
-          &__tile--now {
-            background: var(--fifth-color);
-            color: var(--secondary-color);
-          }
-        }
-      }
     }
   }
 }
@@ -452,7 +436,7 @@ input[type="checkbox"] {
   display: none;
 }
 
-.checkbox_label{
+.checkbox_label {
   display: flex;
   align-items: center;
 }
@@ -488,7 +472,7 @@ input[type="checkbox"] ~ div {
 }
 
 /* Checkbox slider */
-.checkbox_slider{
+.checkbox_slider {
   background-color: var(--fifth-color);
   bottom: 0;
   cursor: pointer;
@@ -496,29 +480,45 @@ input[type="checkbox"] ~ div {
   position: absolute;
   right: 0;
   top: 0;
-  transition: .4s;
+  transition: 0.4s;
   border-radius: 34px;
 
-  &:before{
+  &:before {
     background-color: var(--fifth-color);
     bottom: 4px;
     content: "";
     height: 26px;
     left: 4px;
     position: absolute;
-    transition: .4s;
+    transition: 0.4s;
     width: 26px;
     border-radius: 50%;
   }
 }
 
- input.checkbox_slider_input:checked + .checkbox_slider {
+input.checkbox_slider_input:checked + .checkbox_slider {
   background-color: var(--success-color);
 }
 
 input.checkbox_slider_input:checked + .checkbox_slider:before {
   transform: translateX(26px);
   background-color: var(--primary-color);
+}
+.react-daterange-picker__calendar {
+  .react-calendar {
+    border-radius: var(--radius-md);
+    &__tile--active {
+      background: var(--primary-color);
+    }
+    &__tile--now {
+      background: var(--six-color);
+    }
+    &__tile--active:enabled:hover,
+    &__tile--active:enabled:focus {
+      background: var(--fourth-color);
+      color: var(--primary-color);
+    }
+  }
 }
 
 /* Main */
@@ -573,13 +573,13 @@ input.checkbox_slider_input:checked + .checkbox_slider:before {
       cursor: pointer;
     }
 
-    &.active{
-      a{
+    &.active {
+      a {
         background-color: var(--primary-color);
       }
     }
 
-    &.disabled{
+    &.disabled {
       display: none;
     }
   }

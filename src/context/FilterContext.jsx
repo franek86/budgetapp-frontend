@@ -1,28 +1,27 @@
-import {useState, createContext, useContext} from 'react';
+import { useState, createContext, useContext, useReducer } from "react";
+import reducer from "../reducers/filter_reducer.js";
+import { CHECKED_STATE, CHECK_STATE } from "../actions.js";
 
 const FilterContext = createContext();
 
-export const FilterProvider = ({children}) => {
+const initialState = {
+  checkedState: [],
+  checked: false,
+};
 
-    const [checkedState, setCheckedState] = useState([]);
-    const [checked,setChecked] = useState(false);
+export const FilterProvider = ({ children }) => {
+  const [state, dispatch] = useReducer(reducer, initialState);
 
+  const handleChecked = (e) => {
+    let value = e.target.value;
+    let checkTarget = e.target.checked;
+    dispatch({ type: CHECKED_STATE, payload: { checkTarget, value } });
+    dispatch({ type: CHECK_STATE });
+  };
 
-    const handleChecked = (e) => {
-        const checkTarget = e.target.checked;
-        const value = e.target.value;
-        setCheckedState(
-            checkTarget ? [...checkedState, value] : checkedState.filter((item) => item !== value)
-        )
-        setChecked(current => !current)
-    };
-
-
-    return<FilterContext.Provider value={{handleChecked, checkedState}}>
-        {children}
-    </FilterContext.Provider>
-}
+  return <FilterContext.Provider value={{ ...state, handleChecked }}>{children}</FilterContext.Provider>;
+};
 
 export const useFilterContext = () => {
-    return useContext(FilterContext)
-}
+  return useContext(FilterContext);
+};
