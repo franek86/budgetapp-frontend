@@ -1,0 +1,173 @@
+/* Forms */
+.label {
+  font-size: 1.2rem;
+  font-weight: 600;
+  display: inline-block;
+}
+
+.form_wrapper {
+  display: flex;
+  flex-direction: column;
+
+  .form_group {
+    margin-bottom: 1.2rem;
+
+    .form_label {
+      display: flex;
+      flex-direction: column;
+
+      span {
+        color: var(--text-color);
+        margin-bottom: 0.8rem;
+      }
+
+      .form_input,
+      .form_date {
+        padding: 1rem 1.5rem;
+        border: 1px solid var(--fifth-color);
+        color: var(--text-color);
+        border-radius: var(--radius-sm);
+
+        &::placeholder {
+          color: var(--fifth-color);
+          opacity: 1;
+        }
+
+        &:-ms-input-placeholder {
+          color: var(--fifth-color);
+        }
+
+        &::-ms-input-placeholder {
+          color: var(--fifth-color);
+        }
+
+        &:focus {
+          outline: 1px solid var(--primary-color);
+        }
+      }
+
+      .form_date {
+        color: var(--fifth-color);
+      }
+    }
+
+    .form_btn {
+      background-color: var(--primary-color);
+      border: none;
+      padding: 1rem 2rem;
+      color: var(--secondary-color);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: var(--transition-all);
+      font-weight: 600;
+
+      &:hover {
+        background-color: var(--btn-color);
+        color: var(--primary-color);
+      }
+    }
+
+    /* custom date and calendar */
+    .form_date {
+      background-color: #fff;
+      .react-date-picker__wrapper {
+        border: none;
+
+        .react-date-picker__inputGroup__input {
+          color: var(--fifth-color);
+        }
+      }
+    }
+  }
+}
+
+/* custom select */
+.form_select {
+  .select__control,
+  .select-sm__control {
+    padding: 0.6rem 1rem;
+    border: 1px solid var(--fifth-color);
+    border-radius: var(--radius-sm);
+    background-color: #fff;
+
+    .select__placeholder,
+    .select-sm__placeholder {
+      color: var(--fifth-color);
+    }
+
+    .select__single-value,
+    .select-sm__single-value {
+      color: var(--text-color);
+    }
+  }
+
+  .select__menu,
+  .select-sm__menu {
+    .select__option,
+    .select-sm__option {
+      &--is-selected {
+        background-color: var(--primary-color);
+      }
+      &--is-focused {
+        background-color: rgba($color: #81bcb5, $alpha: 0.3);
+        box-shadow: none;
+      }
+    }
+  }
+
+  .select-sm__control {
+    padding: 0.1rem 0.15rem;
+  }
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+input[type="checkbox"] {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  display: none;
+}
+
+.checkbox_label {
+  display: flex;
+  align-items: center;
+}
+
+input[type="checkbox"]:checked + .checkbox_custom {
+  background-color: var(--primary-color);
+
+  svg {
+    fill: var(--secondary-color);
+    right: 5px;
+    left: unset;
+  }
+}
+
+input[type="checkbox"] ~ div {
+  width: 60px;
+  height: 35px;
+  background-color: var(--fourth-color);
+  display: flex;
+  align-items: center;
+  padding: 0.25rem 0.2rem;
+  border-radius: 20px;
+  cursor: pointer;
+  position: relative;
+  transition: var(--transition-all);
+
+  svg {
+    position: absolute;
+    left: 5px;
+    fill: var(--primary-color);
+    transition: var(--transition-all);
+  }
+}
