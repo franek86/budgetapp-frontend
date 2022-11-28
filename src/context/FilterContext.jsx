@@ -1,5 +1,5 @@
-import { useState, createContext, useContext, useReducer } from "react";
-import reducer from "../reducers/filter_reducer.js";
+import { createContext, useContext, useReducer } from "react";
+import filter_reducer from "../reducers/filter_reducer.js";
 import { CHECKED_STATE, CHECK_STATE } from "../actions.js";
 
 const FilterContext = createContext();
@@ -10,7 +10,7 @@ const initialState = {
 };
 
 export const FilterProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [state, dispatch] = useReducer(filter_reducer, initialState);
 
   const handleChecked = (e) => {
     let value = e.target.value;

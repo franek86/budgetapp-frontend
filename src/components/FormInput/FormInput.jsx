@@ -8,7 +8,8 @@ const FormInput = ({ type, id, name, placeholder, onChange, label, value, requir
         <span>{label}</span>
         <input id={id} type={type} name={name} value={value} onChange={onChange} className='form_input' placeholder={placeholder} required={required} />
       </label>
-      <span className='text-danger'>{errorMessage}</span>
+
+      {errorMessage && <span className='text-danger'>{errorMessage}</span>}
     </div>
   );
 };

@@ -1,6 +1,6 @@
 import { useEffect, createContext, useContext, useReducer } from "react";
 import { getStorageTheme } from "../utils/LocalStorage.js";
-import reducer from "../reducers/theme_reducer.js";
+import theme_reducer from "../reducers/theme_reducer.js";
 import { TOGGLE_MENU, CLOSE_MENU, TOGGLE_THEME, TOGGLE_DROPDOWN } from "../actions.js";
 
 const ThemeContext = createContext();
@@ -12,7 +12,7 @@ const initialState = {
 };
 
 export const ThemeProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [state, dispatch] = useReducer(theme_reducer, initialState);
 
   const handleTheme = () => {
     dispatch({ type: TOGGLE_THEME });
