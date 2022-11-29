@@ -153,9 +153,12 @@ const Transactions = () => {
                 </div>
 
                 <div className='transaction_btns'>
-                  <button className='btn-edit'>
-                    <MdModeEditOutline />
-                  </button>
+                  <Link to={`/transactions/edit/${id}`}>
+                    <button className='btn-edit'>
+                      <MdModeEditOutline />
+                    </button>
+                  </Link>
+
                   <button className='btn-delete ml-1'>
                     <MdOutlineDeleteForever />
                   </button>
