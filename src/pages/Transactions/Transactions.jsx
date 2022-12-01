@@ -7,14 +7,13 @@ import Title from "../../components/Title/Title";
 import Loader from "../../components/Loader/Loader";
 import SearchInput from "../../components/SearchInput/SearchInput";
 import Filters from "../../components/Filters/Filters";
+import TransactionList from "./TransactionList";
 
-import { MdOutlineCreateNewFolder, MdOutlineDeleteForever, MdModeEditOutline } from "react-icons/md";
+import { MdOutlineCreateNewFolder } from "react-icons/md";
 import ReactPaginate from "react-paginate";
 import Select from "react-select";
 
 import "./transactions.scss";
-import formatDate from "../../utils/LuxonFormat";
-import formatCurrency from "../../utils/FormatCurrency";
 
 import { useQuery } from "@tanstack/react-query";
 import { getTransactions } from "../../querys/transactionsQuery";
@@ -132,39 +131,10 @@ const Transactions = () => {
               </div>
             </div>
 
-            {data.data.map(({ _id: id, date, title, categories: { slug }, amount }) => (
-              <div key={id} className='transaction_item'>
-                <div className='transaction_date'>
-                  <div className='label'>Date:</div>
-                  <div>{formatDate(date)}</div>
-                </div>
-                <div className='transaction_title'>
-                  <div className='label'>Info:</div>
-                  <div>{title}</div>
-                </div>
 
-                <div className='transaction_category'>
-                  <div className='label'>Category:</div>
-                  <div className='category'>{slug}</div>
-                </div>
-                <div className='transaction_amount'>
-                  <div className='label'>Amount:</div>
-                  <div className='amount'>{formatCurrency(amount)}</div>
-                </div>
-
-                <div className='transaction_btns'>
-                  <Link to={`/transactions/edit/${id}`}>
-                    <button className='btn-edit'>
-                      <MdModeEditOutline />
-                    </button>
-                  </Link>
-
-                  <button className='btn-delete ml-1'>
-                    <MdOutlineDeleteForever />
-                  </button>
-                </div>
-              </div>
-            ))}
+            {data.data.map((item) => 
+              <TransactionList key={item._id} {...item} />
+            )}
 
             {data.data.length > 0 ? (
               <ReactPaginate

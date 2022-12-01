@@ -1,4 +1,4 @@
-import { TOGGLE_MENU, CLOSE_MENU, TOGGLE_THEME, TOGGLE_DROPDOWN } from "../actions.js";
+import { TOGGLE_MENU, CLOSE_MENU, TOGGLE_THEME, TOGGLE_DROPDOWN, TRANSACTION_IS_EDIT } from "../actions.js";
 
 const theme_reducer = (state, action) => {
   switch (action.type) {
@@ -10,6 +10,8 @@ const theme_reducer = (state, action) => {
       return { ...state, darkMode: state.darkMode === "light_theme" ? "dark_theme" : "light_theme" };
     case TOGGLE_DROPDOWN:
       return { ...state, dropdown: !state.dropdown };
+    case TRANSACTION_IS_EDIT:
+      return {...state, isEdit: action.payload}
     default:
       return state;
   }
