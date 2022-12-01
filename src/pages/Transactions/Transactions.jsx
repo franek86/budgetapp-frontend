@@ -31,7 +31,7 @@ const Transactions = () => {
   const [searchDate, setSearchDate] = useState([new Date(), DateTime.utc().plus({ days: 7 }).toISO()]);
 
   const { data, isLoading, isError, error } = useQuery(["trans", page, perPage, duration, searchData, checkedState], () => getTransactions(page, perPage, duration, searchData, checkedState), {
-    cacheTime: 1000,
+    cacheTime: 10,
     keepPreviousData: true,
   });
 
