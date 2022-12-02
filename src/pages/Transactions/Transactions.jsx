@@ -37,6 +37,8 @@ const Transactions = () => {
 
   const { data: dataCat, isLoading: isLoadingCat, isError: isErrorCat, error: errorCat } = useQuery(["categories"], getCategories);
 
+
+
   const handlePageClick = (e) => {
     let currentPage = e.selected + 1;
     setPage(currentPage);
@@ -67,6 +69,7 @@ const Transactions = () => {
     const value = e.target.value;
     setSearchData(value);
   };
+
 
   if (isError) {
     return <span>Error: {error.message}</span>;

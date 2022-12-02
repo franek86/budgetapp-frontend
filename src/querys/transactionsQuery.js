@@ -1,13 +1,21 @@
 import { axiosClient } from "../utils/Axios";
 
 const createTransaction = async (...data) => {
-  return await axiosClient.post("/transaction", ...data);
+  try {
+    return await axiosClient.post("/transaction", ...data);
+  } catch (error) {
+    console.log(error)
+  }
 };
 
 const getSingleTransaction = async (id) => {
-  const response = await axiosClient.get(`/transaction/${id}`);
-  const data = await response.data.data;
-  return data;
+  try {
+    const response = await axiosClient.get(`/transaction/${id}`);
+    const data = await response.data.data;
+    return data;
+  } catch (error) {
+    console.log(error)
+  }
 };
 
 const updateTransaction = async (id,data) => {
@@ -21,10 +29,23 @@ const updateTransaction = async (id,data) => {
  
 }
 
+
 const getTransactions = async (page, perPage, duration, searchData, categories) => {
-  const response = await axiosClient.get(`/transaction?page=${page}&perPage=${perPage}&firstDate=${duration}&search=${searchData}&category=${categories}`);
-  const trans = await response.data;
-  return trans;
+  try {
+    const response = await axiosClient.get(`/transaction?page=${page}&perPage=${perPage}&firstDate=${duration}&search=${searchData}&category=${categories}`);
+    const trans = await response.data;
+    return trans;
+  } catch (error) {
+    console.log(error)
+  }
 };
 
-export { createTransaction, getTransactions, getSingleTransaction, updateTransaction };
+const deleteTransaction = async (id) => {
+  try {
+    return await axiosClient.delete(`/transaction/${id}`);;
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export { createTransaction, getTransactions, getSingleTransaction, updateTransaction, deleteTransaction };

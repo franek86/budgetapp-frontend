@@ -11,6 +11,7 @@ import { getCategories } from "../../../querys/categoriesQuery";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { updateTransaction } from "../../../querys/transactionsQuery";
+import Loader from "../../../components/Loader/Loader";
 
 const EditTransaction = (data) => {
 
@@ -45,7 +46,6 @@ const EditTransaction = (data) => {
 
   const { mutate, isSuccess, isError, isLoading } = useMutation(updateTransaction(data._id, values),{
       onSuccess: () => {
-        queryClient.invalidateQueries({queryKey:["trans"]})
         toast("Succesfully edit new transaction!");
       },
       onError: () => {
@@ -54,14 +54,18 @@ const EditTransaction = (data) => {
     }
   );
 
+ 
+
   const handleSubmit = (e) => {
     e.preventDefault();
     mutate(values);
+    queryClient.invalidateQueries({queryKey:["trans"]})
   };
+
 
  
   if(isLoading){
-    return <div>is loading...</div>
+    return <Loader />
   } 
 
   return (

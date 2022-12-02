@@ -8,7 +8,6 @@ import FormInput from "../../../components/FormInput/FormInput";
 import Select from "react-select";
 import DatePicker from "react-date-picker";
 
-import "react-toastify/dist/ReactToastify.css";
 import "./createTransaction.scss";
 
 import { getCategories } from "../../../querys/categoriesQuery";

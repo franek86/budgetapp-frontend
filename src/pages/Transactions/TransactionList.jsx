@@ -1,19 +1,46 @@
-import React from 'react'
-import { useQuery } from "@tanstack/react-query";
+import React , {useState}from 'react'
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { MdClose, MdOutlineDeleteForever, MdModeEditOutline } from "react-icons/md";
 
 import formatDate from "../../utils/LuxonFormat";
 import formatCurrency from "../../utils/FormatCurrency";
 
 import EditTrasaction from "./EditTransaction/EditTransaction";
+import Modal from "../../components/Modal/Modal"
 
 import { useThemeContext } from "../../context/ThemeContext"
-import { getSingleTransaction } from "../../querys/transactionsQuery";
+import { deleteTransaction,getSingleTransaction } from "../../querys/transactionsQuery";
 
 const TransactionList = (item) => {
+    const [showModal, setShowModal] = useState(false)
+
+    const queryClient = useQueryClient();
     const { isEdit, toggleIsEdit } = useThemeContext();
     const {_id:id,title, amount, date, categories: {slug}} = item;
     const { data:singleTrans } = useQuery( ["single-trans", id],() => getSingleTransaction(id), {keepPreviousData: false });
+    const { mutateAsync } = useMutation(deleteTransaction, {
+        onSuccess: () => {
+            queryClient.invalidateQueries({queryKey:["trans"]})
+        }
+    })
+
+    const handleDelete = () => {
+        setShowModal(true)
+    }
+
+    const confirmDelete = (id) => {
+        mutateAsync(id);
+    }
+
+    const cancelDelete = () => {
+        setShowModal(false)
+    }
+
+    if(showModal === true){
+        return (
+            <Modal>test</Modal>
+        )  
+    }
 
     return (
     <div className='transaction_item'>
@@ -46,15 +73,17 @@ const TransactionList = (item) => {
                 </button>
             }
 
-            <button className='btn-delete ml-1'>
+            <div className='btn-delete ml-1'>
                 <MdOutlineDeleteForever />
-            </button>
+            </div>
         </div>
         {isEdit === id ? 
         <div className='edit'>
             <EditTrasaction {...singleTrans}/>
         </div> : null
         }
+
+   
     </div>
     )
 }
