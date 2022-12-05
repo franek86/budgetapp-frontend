@@ -12,7 +12,7 @@ import Loader from "../../components/Loader/Loader";
 import SearchInput from "../../components/SearchInput/SearchInput";
 import Filters from "../../components/Filters/Filters";
 import TransactionList from "./TransactionList";
-import Modal from "../../components/Modal/Modal"
+import Modal from "../../components/Modal/Modal";
 import { ToastContainer, toast } from "react-toastify";
 
 import "./transactions.scss";
@@ -29,19 +29,22 @@ const Transactions = () => {
   const queryClient = useQueryClient();
   const { checkedState } = useFilterContext();
   const { toggleModal, closeModal } = useThemeContext();
-  const {  transactionId } = useTransactionContext();
- 
+  const { transactionId } = useTransactionContext();
 
   const [page, setPage] = useState(0);
   const [perPage, setPerPage] = useState(10);
   const [duration, setDuration] = useState(DateTime.utc().minus({ days: 30 }).toISO());
   const [searchData, setSearchData] = useState([]);
-  const [searchDate, setSearchDate] = useState([new Date(), DateTime.utc().plus({ days: 7 }).toISO()]);
+  const [searchDate, setSearchDate] = useState([new Date(), DateTime.utc().toISO()]);
 
-  const { data, isLoading, isError, error } = useQuery(["trans", page, perPage, duration, searchData, checkedState], () => getTransactions(page, perPage, duration, searchData, checkedState), {
-    cacheTime: 10,
-    keepPreviousData: true,
-  });
+  const { data, isLoading, isError, error } = useQuery(
+    ["trans", page, perPage, duration, searchDate[1], searchDate, checkedState],
+    () => getTransactions(page, perPage, duration, searchDate[1], searchData, checkedState),
+    {
+      cacheTime: 10,
+      keepPreviousData: true,
+    }
+  );
 
   const { data: dataCat, isLoading: isLoadingCat, isError: isErrorCat, error: errorCat } = useQuery(["categories"], getCategories);
   const { mutate, isSuccess } = useMutation((id) => deleteTransaction(id), {
@@ -51,7 +54,7 @@ const Transactions = () => {
     onError: () => {
       toast("Something went wrong!");
     },
-  })
+  });
 
   const handlePageClick = (e) => {
     let currentPage = e.selected + 1;
@@ -88,9 +91,9 @@ const Transactions = () => {
     mutate(transactionId);
     queryClient.refetchQueries(["trans"]);
     setTimeout(() => {
-      closeModal()
-    },1000)
-  }
+      closeModal();
+    }, 1000);
+  };
 
   if (isError) {
     return <span>Error: {error.message}</span>;
@@ -116,6 +119,7 @@ const Transactions = () => {
           <Filters dataFilter={dataCat} isErrorFilter={isErrorCat} isLoadFilter={isLoadingCat} errorFilter={errorCat} />
           <h5 className='mt-2'>By dates</h5>
           <DateRangePicker id='date_input' className='form_date' name='date' format='dd-MM-y' value={searchDate} onChange={setSearchDate} calendarIcon={false} clearIcon={false} />
+          {JSON.stringify(searchDate[0])}
         </div>
 
         {isLoading ? (
@@ -155,12 +159,11 @@ const Transactions = () => {
               </div>
             </div>
 
-
-            {data.data.map((item) => 
+            {data.data.map((item) => (
               <TransactionList key={item._id} {...item} />
-            )}
+            ))}
 
-            {data.data.length > 0 ? (
+            {data.paginationData.totalPages > 1 && (
               <ReactPaginate
                 breakLabel='...'
                 nextLabel='>'
@@ -174,8 +177,6 @@ const Transactions = () => {
                 previousClassName='pagination-prev'
                 nextClassName='pagination-next'
               />
-            ) : (
-              <div className='data-notfound'>No data found.</div>
             )}
           </div>
         )}
@@ -185,15 +186,19 @@ const Transactions = () => {
         <ToastContainer position='top-right' autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme='colored' />
       )}
 
-      {toggleModal && 
+      {toggleModal && (
         <Modal>
           <h3>Are you sure?</h3>
-          <div className="flex">
-            <button className="btn btn-success mr-1" onClick={() => handleDeleteTransaction(transactionId)}>Yes</button>
-            <button className="btn btn-danger" onClick={() => closeModal()}>No</button>
+          <div className='flex'>
+            <button className='btn btn-success mr-1' onClick={() => handleDeleteTransaction(transactionId)}>
+              Yes
+            </button>
+            <button className='btn btn-danger' onClick={() => closeModal()}>
+              No
+            </button>
           </div>
         </Modal>
-      }
+      )}
     </div>
   );
 };
