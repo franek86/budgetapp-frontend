@@ -1,4 +1,4 @@
-import { TOGGLE_MENU, CLOSE_MENU, TOGGLE_THEME, TOGGLE_DROPDOWN, TRANSACTION_IS_EDIT } from "../actions.js";
+import { TOGGLE_MENU, CLOSE_MENU, TOGGLE_THEME, TOGGLE_DROPDOWN, TRANSACTION_IS_EDIT, OPEN_MODAL, CLOSE_MODAL } from "../actions.js";
 
 const theme_reducer = (state, action) => {
   switch (action.type) {
@@ -12,6 +12,10 @@ const theme_reducer = (state, action) => {
       return { ...state, dropdown: !state.dropdown };
     case TRANSACTION_IS_EDIT:
       return {...state, isEdit: action.payload}
+    case OPEN_MODAL:
+      return {...state, toggleModal: true}
+    case CLOSE_MODAL:
+      return {...state, toggleModal: false}
     default:
       return state;
   }

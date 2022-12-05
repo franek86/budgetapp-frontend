@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+
 import { DateTime } from "luxon";
+import { MdOutlineCreateNewFolder } from "react-icons/md";
+import ReactPaginate from "react-paginate";
+import Select from "react-select";
 import DateRangePicker from "@wojtekmaj/react-daterange-picker";
 
 import Title from "../../components/Title/Title";
@@ -8,21 +12,25 @@ import Loader from "../../components/Loader/Loader";
 import SearchInput from "../../components/SearchInput/SearchInput";
 import Filters from "../../components/Filters/Filters";
 import TransactionList from "./TransactionList";
-
-import { MdOutlineCreateNewFolder } from "react-icons/md";
-import ReactPaginate from "react-paginate";
-import Select from "react-select";
+import Modal from "../../components/Modal/Modal"
+import { ToastContainer, toast } from "react-toastify";
 
 import "./transactions.scss";
 
-import { useQuery } from "@tanstack/react-query";
-import { getTransactions } from "../../querys/transactionsQuery";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { deleteTransaction, getTransactions } from "../../querys/transactionsQuery";
 import { getCategories } from "../../querys/categoriesQuery";
 
 import { useFilterContext } from "../../context/FilterContext";
+import { useThemeContext } from "../../context/ThemeContext";
+import { useTransactionContext } from "../../context/TransactionsContext";
 
 const Transactions = () => {
+  const queryClient = useQueryClient();
   const { checkedState } = useFilterContext();
+  const { toggleModal, closeModal } = useThemeContext();
+  const {  transactionId } = useTransactionContext();
+ 
 
   const [page, setPage] = useState(0);
   const [perPage, setPerPage] = useState(10);
@@ -36,8 +44,14 @@ const Transactions = () => {
   });
 
   const { data: dataCat, isLoading: isLoadingCat, isError: isErrorCat, error: errorCat } = useQuery(["categories"], getCategories);
-
-
+  const { mutate, isSuccess } = useMutation((id) => deleteTransaction(id), {
+    onSuccess: () => {
+      toast("Succesfully deleted transaction!");
+    },
+    onError: () => {
+      toast("Something went wrong!");
+    },
+  })
 
   const handlePageClick = (e) => {
     let currentPage = e.selected + 1;
@@ -70,6 +84,13 @@ const Transactions = () => {
     setSearchData(value);
   };
 
+  const handleDeleteTransaction = (transactionId) => {
+    mutate(transactionId);
+    queryClient.refetchQueries(["trans"]);
+    setTimeout(() => {
+      closeModal()
+    },1000)
+  }
 
   if (isError) {
     return <span>Error: {error.message}</span>;
@@ -159,6 +180,20 @@ const Transactions = () => {
           </div>
         )}
       </section>
+
+      {isSuccess && (
+        <ToastContainer position='top-right' autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme='colored' />
+      )}
+
+      {toggleModal && 
+        <Modal>
+          <h3>Are you sure?</h3>
+          <div className="flex">
+            <button className="btn btn-success mr-1" onClick={() => handleDeleteTransaction(transactionId)}>Yes</button>
+            <button className="btn btn-danger" onClick={() => closeModal()}>No</button>
+          </div>
+        </Modal>
+      }
     </div>
   );
 };
