@@ -25,7 +25,7 @@
       .form_date {
         padding: 1rem 1.5rem;
         border: 1px solid var(--fifth-color);
-        color: var(--text-color);
+        /* color: var(--text-color); */
         border-radius: var(--radius-sm);
 
         &::placeholder {
@@ -73,8 +73,11 @@
       .react-date-picker__wrapper {
         border: none;
 
-        .react-date-picker__inputGroup__input {
-          color: var(--fifth-color);
+        .react-date-picker__inputGroup {
+          span{
+            color: #000;
+          }
+         
         }
       }
     }
@@ -95,10 +98,7 @@
       color: var(--fifth-color);
     }
 
-    .select__single-value,
-    .select-sm__single-value {
-      color: var(--text-color);
-    }
+  
   }
 
   .select__menu,

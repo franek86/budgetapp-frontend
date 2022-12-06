@@ -29,7 +29,8 @@ const Transactions = () => {
   const queryClient = useQueryClient();
   const { checkedState } = useFilterContext();
   const { toggleModal, closeModal } = useThemeContext();
-  const { transactionId } = useTransactionContext();
+  const { transactionId, getLatestTransaction } = useTransactionContext();
+
 
   const [page, setPage] = useState(0);
   const [perPage, setPerPage] = useState(10);
@@ -40,6 +41,7 @@ const Transactions = () => {
   const { data, isLoading, isError, error } = useQuery(
     ["trans", page, perPage, duration, searchDate[1], searchDate, checkedState],
     () => getTransactions(page, perPage, duration, searchDate[1], searchData, checkedState),
+
     {
       cacheTime: 10,
       keepPreviousData: true,
@@ -80,12 +82,20 @@ const Transactions = () => {
 
   const handleDateDuration = (value) => {
     setDuration(value.value);
+    setSearchDate([value.value, DateTime.utc().toISO()])
   };
 
   const handleSearch = (e) => {
     const value = e.target.value;
     setSearchData(value);
   };
+
+  const handleChangeDate = (date) => {
+    let stratDate = date[0].toISOString();
+    let endDate = date[1].toISOString();
+    setDuration(stratDate);
+    setSearchDate([stratDate, endDate]);
+  }
 
   const handleDeleteTransaction = (transactionId) => {
     mutate(transactionId);
@@ -94,6 +104,8 @@ const Transactions = () => {
       closeModal();
     }, 1000);
   };
+
+
 
   if (isError) {
     return <span>Error: {error.message}</span>;
@@ -118,8 +130,7 @@ const Transactions = () => {
           <h5 className='mt-2'>By categories</h5>
           <Filters dataFilter={dataCat} isErrorFilter={isErrorCat} isLoadFilter={isLoadingCat} errorFilter={errorCat} />
           <h5 className='mt-2'>By dates</h5>
-          <DateRangePicker id='date_input' className='form_date' name='date' format='dd-MM-y' value={searchDate} onChange={setSearchDate} calendarIcon={false} clearIcon={false} />
-          {JSON.stringify(searchDate[0])}
+          <DateRangePicker id='date_input' className='form_date' name='date' format='dd-MM-y' value={searchDate} onChange={handleChangeDate} calendarIcon={false} clearIcon={false} />
         </div>
 
         {isLoading ? (
@@ -178,6 +189,8 @@ const Transactions = () => {
                 nextClassName='pagination-next'
               />
             )}
+
+            {data.data.length < 1 && <div>no data</div>}
           </div>
         )}
       </section>

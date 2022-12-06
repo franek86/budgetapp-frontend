@@ -1,10 +1,11 @@
 import { createContext, useReducer , useContext} from 'react'
 import transaction_reducer from '../reducers/transactions_reducer'
-import { DELETE_TRANSACTIONS } from "../actions";
+import { DELETE_TRANSACTIONS, LATEST_TRANSACTIONS } from "../actions";
 
 const TransactionsContext = createContext();
 const initialState = {
-    transactionId: 0
+    transactionId: 0,
+    latestTransaction: []
 }
 
 export const TransactionProvider = ({children}) => {
@@ -14,7 +15,11 @@ export const TransactionProvider = ({children}) => {
         dispatch({type: DELETE_TRANSACTIONS, payload: id});
     }
 
-    return <TransactionsContext.Provider value={{...state, getTransactionId}}>
+    const getLatestTransaction = (data) => {
+        dispatch({type: LATEST_TRANSACTIONS, payload: data})
+    }
+
+    return <TransactionsContext.Provider value={{...state, getTransactionId, getLatestTransaction}}>
         {children}
     </TransactionsContext.Provider>
 }

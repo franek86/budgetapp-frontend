@@ -5,7 +5,7 @@ import Title from '../../components/Title/Title'
 const Home = () => {
   return (
     <div>
-      <Title>Home</Title>
+      <Title>Dashboard</Title>
     </div>
   )
 }
