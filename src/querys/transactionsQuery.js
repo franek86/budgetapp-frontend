@@ -28,16 +28,15 @@ const updateTransaction = async (id, data) => {
   }
 };
 
-const getLatestTransactions = async() => {
+const getLatestTransactions = async () => {
   try {
-    const response = await axiosClient.get('/transaction/latest');
+    const response = await axiosClient.get("/transaction/latest");
     const latestTrans = await response.data;
-    console.log(latestTrans)
     return latestTrans;
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
-}
+};
 
 const getTransactions = async (page, perPage, duration, lastDate, searchData, categories) => {
   try {

@@ -1,18 +1,32 @@
-import React from 'react'
-import './home.scss'
-import { useQuery } from '@tanstack/react-query'
-import { getLatestTransactions } from '../../querys/transactionsQuery';
-import Title from '../../components/Title/Title'
-import LatestTransactions from '../Transactions/LatestTransactions/LatestTransactions'
+import React from "react";
+import "./home.scss";
+
+import Title from "../../components/Title/Title";
+import LatestTransactions from "./LatestTransactions/LatestTransactions";
 
 const Home = () => {
-  const { data } = useQuery(["latestTrans"], getLatestTransactions)
   return (
     <div>
       <Title>Dashboard</Title>
-      <LatestTransactions />
-    </div>
-  )
-}
+      <div className='home_grid'>
+        <div className='card'>
+          <h2>total income</h2>
+        </div>
+        <div className='card'>
+          <h2>total speding</h2>
+        </div>
+        <div className='card'>
+          <h2>total speding</h2>
+        </div>
+        <div className='card'>
+          <h2>chart budget use</h2>
+          <h2>chart category spending</h2>
+        </div>
 
-export default Home
+        <LatestTransactions />
+      </div>
+    </div>
+  );
+};
+
+export default Home;
