@@ -29,7 +29,7 @@ const Transactions = () => {
   const queryClient = useQueryClient();
   const { checkedState } = useFilterContext();
   const { toggleModal, closeModal } = useThemeContext();
-  const { transactionId, getLatestTransaction } = useTransactionContext();
+  const { transactionId } = useTransactionContext();
 
 
   const [page, setPage] = useState(0);
@@ -41,7 +41,6 @@ const Transactions = () => {
   const { data, isLoading, isError, error } = useQuery(
     ["trans", page, perPage, duration, searchDate[1], searchDate, checkedState],
     () => getTransactions(page, perPage, duration, searchDate[1], searchData, checkedState),
-
     {
       cacheTime: 10,
       keepPreviousData: true,
@@ -190,7 +189,11 @@ const Transactions = () => {
               />
             )}
 
-            {data.data.length < 1 && <div>no data</div>}
+            {data.data.length < 1 && 
+              <div className="mt-4">
+                <h1>Transaction not found.</h1>
+              </div>
+            }
           </div>
         )}
       </section>
