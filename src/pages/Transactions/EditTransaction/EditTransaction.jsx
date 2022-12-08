@@ -71,7 +71,7 @@ const EditTransaction = (data) => {
   return (
     <div>
 
-      <div className='flex align-items-center justify-content-between'>
+      <div className='flex align-center justify-between'>
         <Title>Edit transactions </Title>
       </div>
 

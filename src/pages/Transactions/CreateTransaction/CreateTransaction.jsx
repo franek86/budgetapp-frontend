@@ -66,10 +66,10 @@ const CreateTransaction = () => {
 
   return (
     <>
-      <div className='flex align-items-center justify-content-between'>
+      <div className='flex align-center justify-between'>
         <Title>Create transactions </Title>
 
-        <div onClick={() => navigate(-1)} className='flex align-items-center justify-content-between transaction_link_create'>
+        <div onClick={() => navigate(-1)} className='flex align-center justify-between transaction_link_create'>
           <MdArrowBack size='30' />
           <span>Back</span>
         </div>

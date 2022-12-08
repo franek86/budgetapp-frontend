@@ -13,7 +13,7 @@ const Navbar = () => {
   return (
     <aside className={`aside${toggleMenu === true ? ' aside_toggle' : ''}`}>
       <div className='nav_close' onClick={handleCloseMenu}>
-        <MdClose size={30}/>
+        <MdClose size={30} />
       </div>
       <div className='nav_logo'>
         <Link to="/">
@@ -22,22 +22,21 @@ const Navbar = () => {
       </div>
       <nav className="nav">
           <ul className="nav_links">
-              <NavLinks url="/" endHandler="end">
+              <NavLinks url="/" endHandler="end" clickHandler={handleCloseMenu}>
                 <div className="nav_links_icon">
                   <MdOutlineSpaceDashboard size={20}/>
                 </div>
                 Dashboard
               </NavLinks>
 
-              <NavLinks url="/transactions">
+              <NavLinks url="/transactions" clickHandler={handleCloseMenu}>
                 <div className="nav_links_icon">
                  <MdOutlineSyncAlt size={20}/>
                 </div>
-              
                 Transactions
               </NavLinks>
 
-              <NavLinks url="/categories">
+              <NavLinks url="/categories" clickHandler={handleCloseMenu}>
                 <div className="nav_links_icon">
                   <MdOutlineCategory size={20}/>
                 </div>
@@ -45,7 +44,7 @@ const Navbar = () => {
                 Categories
               </NavLinks>
 
-              <NavLinks url="/wallet">
+              <NavLinks url="/wallet" clickHandler={handleCloseMenu}>
                 <div className="nav_links_icon">
                   <MdOutlineAccountBalanceWallet size={20}/>
                 </div>
@@ -53,7 +52,7 @@ const Navbar = () => {
                 Wallet
               </NavLinks>
 
-              <NavLinks url="/profile">
+              <NavLinks url="/profile" clickHandler={handleCloseMenu}>
                 <div className="nav_links_icon">
                   <MdOutlineAdminPanelSettings size={20}/>
                 </div>

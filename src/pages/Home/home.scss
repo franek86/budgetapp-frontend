@@ -2,5 +2,8 @@
   display: grid;
   grid-template-rows: repeat(2, max-content);
   grid-template-columns: repeat(3, 1fr);
-  column-gap: 2rem;
+
+  .home_grid_chart{
+    grid-column: 1/3;
+  }
 }

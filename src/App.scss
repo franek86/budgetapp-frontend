@@ -1,6 +1,7 @@
 /* Fonts */
 @import url("http://fonts.cdnfonts.com/css/clash-display");
 
+
 /* Global */
 * {
   margin: 0;
@@ -93,27 +94,51 @@ body {
 
 .row-gap {
   row-gap: var(--base-size);
+  @media (min-width: 768px) {
+    row-gap: calc(var(--base-size) / 2);
+  }
 }
 
 .column-gap {
   column-gap: var(--base-size);
+  @media (min-width: 768px) {
+    row-gap: calc(var(--base-size) / 2);
+  }
 }
 
-.column-1 {
-  grid-template-columns: 1fr;
+.column-1{
+  grid-template-columns:1fr;
+}
+.column-2{
+  grid-template-columns: repeat(2, 1fr);
+}
+.column-3{
+  grid-template-columns: repeat(3, 1fr);
+}
+.column-4{
+  grid-template-columns: repeat(4, 1fr);
+}
+.column-5{
+  grid-template-columns: repeat(5, 1fr);
 }
 
 .column-filter {
-  grid-template-columns: 15vw auto;
-}
+  @media (min-width: 992px) {
+    grid-template-columns: 25vw auto;
+  }
 
-.app_column {
-  @media (min-width: 768px) {
-    grid-template-columns: 25vw 1fr;
+  @media (min-width: 1200px) {
+    grid-template-columns: 20vw auto;
   }
 
   @media (min-width: 1400px) {
-    grid-template-columns: 15vw 1fr;
+    grid-template-columns: 18vw auto;
+  }
+}
+
+.app_column {
+  @media (min-width: 1200px) {
+    grid-template-columns: 20vw 1fr;
   }
 }
 
@@ -130,11 +155,19 @@ body {
   flex-direction: column;
 }
 
-.align-items-center {
+.align-center {
   align-items: center;
 }
 
-.justify-content-between {
+.justify-center {
+  justify-content: center;
+}
+
+.justify-end {
+  justify-content: flex-end;
+}
+
+.justify-between {
   justify-content: space-between;
 }
 
@@ -203,50 +236,6 @@ h6 {
   color: var(--danger-color);
 }
 
-/* Spacing */
-.mt-1 {
-  margin-top: 1rem;
-}
-.mt-2 {
-  margin-top: 2rem;
-}
-.mt-3 {
-  margin-top: 3rem;
-}
-.mt-4 {
-  margin-top: 4rem;
-}
-
-.mb-1 {
-  margin-bottom: 1rem;
-}
-.mb-2 {
-  margin-bottom: 2rem;
-}
-.mb-3 {
-  margin-bottom: 3rem;
-}
-
-.ml-1 {
-  margin-left: 1rem;
-}
-.ml-2 {
-  margin-left: 2rem;
-}
-.ml-3 {
-  margin-left: 3rem;
-}
-
-.mr-1 {
-  margin-right: 1rem;
-}
-.mr-2 {
-  margin-right: 2rem;
-}
-.mr-3 {
-  margin-right: 3rem;
-}
-
 /* Buttons */
 .btn {
   padding: calc(var(--base-size) / 2) var(--base-size);
@@ -302,6 +291,22 @@ h6 {
 
 .btn-delete {
   background-color: var(--danger-color);
+}
+
+/* Icons */
+.filter_icon{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--primary-color);
+  padding: 1rem;
+  border-radius: 50%;
+  transition: .3s ease-in-out;
+  cursor: pointer;
+
+  &:hover{
+    background-color: var(--six-color);
+  }
 }
 
 /* Checkbox slider */
@@ -419,20 +424,15 @@ input.checkbox_slider_input:checked + .checkbox_slider:before {
 }
 
 /* Card */
-
 .card {
   display: grid;
   align-items: center;
   border-radius: var(--radius-md);
-  margin-top: 2rem;
+  //margin-top: 2rem;
   padding: 2rem;
   border: 1px solid var(--secondary-color);
   color: var(--text-color);
   box-shadow: 0 0 10px rgba($color: #1f1e1e, $alpha: 0.2);
-
-  &.grid-5 {
-    grid-template-columns: repeat(5, 1fr);
-  }
 
   .category {
     width: max-content;
@@ -465,5 +465,51 @@ input.checkbox_slider_input:checked + .checkbox_slider:before {
     grid-column: 1/-1;
     padding: 1rem;
     margin-top: 1.2rem;
+  }
+}
+
+
+/* columns mixins */
+$bp : (
+  sm  : 640px,
+  md  : 768px,
+  lg  : 1024px,
+  xl : 1280px,
+  xxl  : 1400px,
+);
+$columns: 6;
+
+@each $key,$value in $bp{
+  @media (min-width: $value) {
+    @for $col from 1 through $columns {
+      .column-#{$key}-#{$col}{
+        grid-template-columns: repeat(#{$col}, 1fr);
+      }
+      .justify-#{$key}-center{
+        justify-content: center;
+      }
+      .justify-#{$key}-start{
+        justify-content: flex-start;
+      }
+      .justify-#{$key}-end{
+        justify-content: flex-end;
+      }
+    }
+  }
+}
+
+/* padding and margin mixins */
+$spaceamounts: (1, 2, 3, 4, 5, 6); //in rem's
+$sides: (top, bottom, left, right); 
+
+@each $space in $spaceamounts {
+  @each $side in $sides {
+    .m#{str-slice($side, 0, 1)}-#{$space} {
+      margin-#{$side}: #{$space}rem;
+    }
+  
+    .p#{str-slice($side, 0, 1)}-#{$space} {
+      padding-#{$side}: #{$space}rem;
+    }
   }
 }

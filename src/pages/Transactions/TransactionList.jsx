@@ -29,7 +29,7 @@ const TransactionList = (item) => {
   };
 
   return (
-    <div className='card grid-5'>
+    <div className='card column-2 column-sm-5 column-gap row-gap'>
       <div className='card_date'>
         <div className='label'>Date:</div>
         <div>{formatDate(date)}</div>
@@ -48,7 +48,7 @@ const TransactionList = (item) => {
         <div className='amount'>{formatCurrency(amount)}</div>
       </div>
 
-      <div className='card_btns'>
+      <div className='flex align-center justify-center justify-sm-end'>
         {isEdit === id ? (
           <button className='btn-edit' onClick={() => toggleIsEdit(-1)}>
             <MdClose />

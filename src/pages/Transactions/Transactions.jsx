@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 import { DateTime } from "luxon";
-import { MdOutlineCreateNewFolder } from "react-icons/md";
+import { MdOutlineCreateNewFolder, MdClose } from "react-icons/md";
+import { BiFilterAlt } from "react-icons/bi";
 import ReactPaginate from "react-paginate";
 import Select from "react-select";
 import DateRangePicker from "@wojtekmaj/react-daterange-picker";
@@ -17,6 +18,8 @@ import { ToastContainer, toast } from "react-toastify";
 
 import "./transactions.scss";
 
+import useMediaQuery from "../../hooks/useMediaQuery";
+
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { deleteTransaction, getTransactions } from "../../querys/transactionsQuery";
 import { getCategories } from "../../querys/categoriesQuery";
@@ -26,6 +29,8 @@ import { useThemeContext } from "../../context/ThemeContext";
 import { useTransactionContext } from "../../context/TransactionsContext";
 
 const Transactions = () => {
+  const isDesktop = useMediaQuery('(min-width: 1200px)');
+
   const queryClient = useQueryClient();
   const { checkedState } = useFilterContext();
   const { toggleModal, closeModal } = useThemeContext();
@@ -37,6 +42,7 @@ const Transactions = () => {
   const [duration, setDuration] = useState(DateTime.utc().minus({ days: 30 }).toISO());
   const [searchData, setSearchData] = useState([]);
   const [searchDate, setSearchDate] = useState([new Date(), DateTime.utc().toISO()]);
+  const [toggleFilter, setToggleFilter] = useState(false);
 
   const { data, isLoading, isError, error } = useQuery(
     ["trans", page, perPage, duration, searchDate[1], searchDate, checkedState],
@@ -111,18 +117,24 @@ const Transactions = () => {
   }
 
   return (
-    <div>
-      <div className='flex align-items-center justify-content-between'>
+    <>
+      <div className='flex align-center justify-between'>
         <Title>Transactions</Title>
-        <Link to='/transactions/create' className='flex align-items-center justify-content-between transaction_link_create'>
+        <Link to='/transactions/create' className='flex align-center justify-between transaction_link_create'>
           <span>Create</span>
           <MdOutlineCreateNewFolder size='30' />
         </Link>
       </div>
 
-      <section className='grid column-filter column-gap mt-3'>
-        <div className='transaction_filter'>
-          <h4 className='mb-3'>Filters:</h4>
+      <section className={`grid column-gap mt-3 ${ isDesktop ? 'column-filter' : 'column-1'}`}>
+
+        <div className={`${isDesktop ? 'transaction_filter' : 'mobile_transaction_filter'} ${toggleFilter ? 'open_filter' : ''}`}>
+          <div className="flex justify-between">
+            <h4 className='mb-3'>Filters</h4>
+            <div className="close_icon"  onClick={() => setToggleFilter(!toggleFilter)}>
+              <MdClose size={30} fill="#fff"/>
+            </div>
+          </div>
 
           <h5>Search</h5>
           <SearchInput handleSearch={handleSearch} search={searchData} />
@@ -130,14 +142,16 @@ const Transactions = () => {
           <Filters dataFilter={dataCat} isErrorFilter={isErrorCat} isLoadFilter={isLoadingCat} errorFilter={errorCat} />
           <h5 className='mt-2'>By dates</h5>
           <DateRangePicker id='date_input' className='form_date' name='date' format='dd-MM-y' value={searchDate} onChange={handleChangeDate} calendarIcon={false} clearIcon={false} />
-        </div>
+        </div> 
 
         {isLoading ? (
           <Loader />
         ) : (
-          <div className='transaction_list'>
+          <section>
             <div className='transaction_header'>
-              <div className='flex align-items-center'>
+              {!isDesktop && <div className="filter_icon" onClick={() => setToggleFilter(!toggleFilter)}><BiFilterAlt size="25" fill="#fff"/></div>}
+
+              <div className='flex align-center'>
                 <label className='mr-1 font-12 text-color'>Last:</label>
                 <Select
                   name='duration'
@@ -150,8 +164,8 @@ const Transactions = () => {
                 />
               </div>
 
-              <div className='flex align-items-center'>
-                <div className='flex align-items-center'>
+              <div className='flex align-center'>
+                <div className='flex align-center'>
                   <label className='mr-1 font-12 text-color'>Per page:</label>
                   <Select
                     name='perPage'
@@ -169,9 +183,11 @@ const Transactions = () => {
               </div>
             </div>
 
-            {data.data.map((item) => (
-              <TransactionList key={item._id} {...item} />
-            ))}
+            <div className='mt-4 grid row-gap'>
+              {data.data.map((item) => (
+                <TransactionList key={item._id} {...item} />
+              ))}
+            </div>
 
             {data.paginationData.totalPages > 1 && (
               <ReactPaginate
@@ -194,7 +210,7 @@ const Transactions = () => {
                 <h1>Transaction not found.</h1>
               </div>
             }
-          </div>
+          </section>
         )}
       </section>
 
@@ -215,7 +231,7 @@ const Transactions = () => {
           </div>
         </Modal>
       )}
-    </div>
+    </>
   );
 };
 

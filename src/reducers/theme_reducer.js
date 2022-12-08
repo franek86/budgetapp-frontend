@@ -5,7 +5,7 @@ const theme_reducer = (state, action) => {
     case TOGGLE_MENU:
       return { ...state, toggleMenu: !state.toggleMenu };
     case CLOSE_MENU:
-      return { ...state, toggleMenu: true };
+      return { ...state, toggleMenu: false };
     case TOGGLE_THEME:
       return { ...state, darkMode: state.darkMode === "light_theme" ? "dark_theme" : "light_theme" };
     case TOGGLE_DROPDOWN:

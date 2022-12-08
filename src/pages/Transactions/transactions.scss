@@ -14,20 +14,48 @@
   }
 }
 
-.transaction_list {
-  .transaction_header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+.transaction_filter{
+  display: none;
+  @media (min-width:1200px) {
+   display: block;
   }
 }
 
+.mobile_transaction_filter{
+  transform: translateX(-100%);
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  padding: 2rem;
+  width: max-content;
+  background-color: var(--primary-color);
+  transition: all .3s ease-in-out;
+  z-index: 2;
+  &.open_filter{
+    transform: translateX(0%);
+  }
+  .close_icon{
+    cursor: pointer;
+
+    &:hover{
+      opacity: 0.7;
+    }
+  }
+}
+
+.transaction_header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .react-daterange-picker__wrapper {
-  border: none;
+  border: 1px solid var(--fifth-color);
   background-color: #fff;
   border-radius: var(--radius-sm);
   padding: 0.85rem;
-  box-shadow: var(--shadow-sm);
+  box-shadow: none;
   margin-top: 5px;
 
   input {

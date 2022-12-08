@@ -3,27 +3,31 @@ import "./home.scss";
 
 import Title from "../../components/Title/Title";
 import LatestTransactions from "./LatestTransactions/LatestTransactions";
+import { DoughnutChart } from "../../components/Charts/DoughnutChart";
 
 const Home = () => {
   return (
     <div>
       <Title>Dashboard</Title>
-      <div className='home_grid'>
+      <div className='home_grid row-gap column-gap'>
         <div className='card'>
-          <h2>total income</h2>
+          <h4>total income</h4>
         </div>
         <div className='card'>
-          <h2>total speding</h2>
+          <h4>total speding</h4>
         </div>
         <div className='card'>
-          <h2>total speding</h2>
+          <h4>total speding</h4>
         </div>
-        <div className='card'>
-          <h2>chart budget use</h2>
-          <h2>chart category spending</h2>
+        <div className='card grid column-2 home_grid_chart'>
+          <DoughnutChart />
+          <DoughnutChart />
         </div>
 
-        <LatestTransactions />
+        <div>
+          <h3 className="mb-1">Latest transactions</h3>
+          <LatestTransactions />
+        </div>
       </div>
     </div>
   );
