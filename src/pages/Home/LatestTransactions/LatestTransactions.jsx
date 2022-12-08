@@ -17,7 +17,7 @@ const LatestTransactions = () => {
   return (
     <div className='latest-transaction grid column-gap'>
       {data?.map((item) => (
-        <div className='card column-2' key={item._id}>
+        <div className='card column-2 column-sm-1 column-md-2 column-lg-4' key={item._id}>
           <div className='card_date'>
             <div className='label'>Date:</div>
             <div>{formatDate(item.date)}</div>

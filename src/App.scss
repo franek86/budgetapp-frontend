@@ -1,7 +1,6 @@
 /* Fonts */
 @import url("http://fonts.cdnfonts.com/css/clash-display");
 
-
 /* Global */
 * {
   margin: 0;
@@ -106,19 +105,19 @@ body {
   }
 }
 
-.column-1{
-  grid-template-columns:1fr;
+.column-1 {
+  grid-template-columns: 1fr;
 }
-.column-2{
+.column-2 {
   grid-template-columns: repeat(2, 1fr);
 }
-.column-3{
+.column-3 {
   grid-template-columns: repeat(3, 1fr);
 }
-.column-4{
+.column-4 {
   grid-template-columns: repeat(4, 1fr);
 }
-.column-5{
+.column-5 {
   grid-template-columns: repeat(5, 1fr);
 }
 
@@ -294,17 +293,17 @@ h6 {
 }
 
 /* Icons */
-.filter_icon{
+.filter_icon {
   display: flex;
   align-items: center;
   justify-content: center;
   background-color: var(--primary-color);
   padding: 1rem;
   border-radius: 50%;
-  transition: .3s ease-in-out;
+  transition: 0.3s ease-in-out;
   cursor: pointer;
 
-  &:hover{
+  &:hover {
     background-color: var(--six-color);
   }
 }
@@ -428,7 +427,6 @@ input.checkbox_slider_input:checked + .checkbox_slider:before {
   display: grid;
   align-items: center;
   border-radius: var(--radius-md);
-  //margin-top: 2rem;
   padding: 2rem;
   border: 1px solid var(--secondary-color);
   color: var(--text-color);
@@ -456,9 +454,18 @@ input.checkbox_slider_input:checked + .checkbox_slider:before {
     font-weight: 600;
   }
 
-  .transaction_btns {
-    display: flex;
-    justify-content: flex-end;
+  .card_btns {
+    display: grid;
+    grid-column: 3/-1;
+    grid-row: 1/3;
+    grid-template-rows: repeat(2, 1fr);
+    gap: 2rem;
+    @media (min-width: 640px) {
+      display: flex;
+      align-items: center;
+      grid-column: unset;
+      grid-row: unset;
+    }
   }
 
   .edit {
@@ -468,30 +475,29 @@ input.checkbox_slider_input:checked + .checkbox_slider:before {
   }
 }
 
-
 /* columns mixins */
-$bp : (
-  sm  : 640px,
-  md  : 768px,
-  lg  : 1024px,
-  xl : 1280px,
-  xxl  : 1400px,
+$bp: (
+  sm: 640px,
+  md: 768px,
+  lg: 1024px,
+  xl: 1280px,
+  xxl: 1400px,
 );
 $columns: 6;
 
-@each $key,$value in $bp{
+@each $key, $value in $bp {
   @media (min-width: $value) {
     @for $col from 1 through $columns {
-      .column-#{$key}-#{$col}{
+      .column-#{$key}-#{$col} {
         grid-template-columns: repeat(#{$col}, 1fr);
       }
-      .justify-#{$key}-center{
+      .justify-#{$key}-center {
         justify-content: center;
       }
-      .justify-#{$key}-start{
+      .justify-#{$key}-start {
         justify-content: flex-start;
       }
-      .justify-#{$key}-end{
+      .justify-#{$key}-end {
         justify-content: flex-end;
       }
     }
@@ -500,14 +506,14 @@ $columns: 6;
 
 /* padding and margin mixins */
 $spaceamounts: (1, 2, 3, 4, 5, 6); //in rem's
-$sides: (top, bottom, left, right); 
+$sides: (top, bottom, left, right);
 
 @each $space in $spaceamounts {
   @each $side in $sides {
     .m#{str-slice($side, 0, 1)}-#{$space} {
       margin-#{$side}: #{$space}rem;
     }
-  
+
     .p#{str-slice($side, 0, 1)}-#{$space} {
       padding-#{$side}: #{$space}rem;
     }

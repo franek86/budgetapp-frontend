@@ -48,7 +48,7 @@ const TransactionList = (item) => {
         <div className='amount'>{formatCurrency(amount)}</div>
       </div>
 
-      <div className='flex align-center justify-center justify-sm-end'>
+      <div className='card_btns'>
         {isEdit === id ? (
           <button className='btn-edit' onClick={() => toggleIsEdit(-1)}>
             <MdClose />
@@ -59,7 +59,7 @@ const TransactionList = (item) => {
           </button>
         )}
 
-        <div className='btn-delete ml-1' onClick={() => handleOpenModal(id)}>
+        <div className='btn-delete ml-sm-1' onClick={() => handleOpenModal(id)}>
           <MdOutlineDeleteForever />
         </div>
       </div>
