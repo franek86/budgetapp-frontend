@@ -38,9 +38,19 @@ const getLatestTransactions = async () => {
   }
 };
 
-const getTransactions = async (page, perPage, duration, lastDate, searchData, categories) => {
+const getQueryTransactions = async (page, perPage, duration, lastDate, searchData, categories) => {
   try {
     const response = await axiosClient.get(`/transaction?page=${page}&perPage=${perPage}&firstDate=${duration}&lastDate=${lastDate}&search=${searchData}&category=${categories}`);
+    const trans = await response.data;
+    return trans;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const getAllTransactions = async (duration) => {
+  try {
+    const response = await axiosClient.get(`/transaction/all?firstDate=${duration}`);
     const trans = await response.data;
     return trans;
   } catch (error) {
@@ -56,4 +66,4 @@ const deleteTransaction = async (id) => {
   }
 };
 
-export { createTransaction, getTransactions, getLatestTransactions, getSingleTransaction, updateTransaction, deleteTransaction };
+export { createTransaction, getQueryTransactions, getLatestTransactions, getSingleTransaction, updateTransaction, deleteTransaction, getAllTransactions };

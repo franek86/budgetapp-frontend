@@ -1,10 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
+import { DateTime } from "luxon";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
+
+import { useQuery } from "@tanstack/react-query";
+import { getAllTransactions } from "../../querys/transactionsQuery";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const DoughnutChart = () => {
+  const [duration, setDuration] = useState(DateTime.utc().minus({ days: 30 }).toISO());
+
+  const { data:transData } = useQuery(
+    ["transAll", duration],
+    () => getAllTransactions(duration)
+  );
+
+  console.log(transData)
+
   const data = {
     labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
     datasets: [

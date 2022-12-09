@@ -21,7 +21,7 @@ import "./transactions.scss";
 import useMediaQuery from "../../hooks/useMediaQuery";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { deleteTransaction, getTransactions } from "../../querys/transactionsQuery";
+import { deleteTransaction, getQueryTransactions } from "../../querys/transactionsQuery";
 import { getCategories } from "../../querys/categoriesQuery";
 
 import { useFilterContext } from "../../context/FilterContext";
@@ -46,7 +46,7 @@ const Transactions = () => {
 
   const { data, isLoading, isError, error } = useQuery(
     ["trans", page, perPage, duration, searchDate[1], searchDate, checkedState],
-    () => getTransactions(page, perPage, duration, searchDate[1], searchData, checkedState),
+    () => getQueryTransactions(page, perPage, duration, searchDate[1], searchData, checkedState),
     {
       cacheTime: 10,
       keepPreviousData: true,
