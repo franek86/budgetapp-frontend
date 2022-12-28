@@ -15,10 +15,21 @@
     .form_label {
       display: flex;
       flex-direction: column;
+      position: relative;
 
       span {
         color: var(--text-color);
         margin-bottom: 0.8rem;
+      }
+
+      .form_icon {
+        &-right {
+          position: absolute;
+          right: 10px;
+          top: 50%;
+          transform: translateX(-50%);
+          cursor: pointer;
+        }
       }
 
       .form_input,
@@ -74,10 +85,9 @@
         border: none;
 
         .react-date-picker__inputGroup {
-          span{
+          span {
             color: #000;
           }
-         
         }
       }
     }
@@ -97,8 +107,6 @@
     .select-sm__placeholder {
       color: var(--fifth-color);
     }
-
-  
   }
 
   .select__menu,

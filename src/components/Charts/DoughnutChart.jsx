@@ -11,12 +11,7 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 const DoughnutChart = () => {
   const [duration, setDuration] = useState(DateTime.utc().minus({ days: 30 }).toISO());
 
-  const { data:transData } = useQuery(
-    ["transAll", duration],
-    () => getAllTransactions(duration)
-  );
-
-  console.log(transData)
+  const { data: transData } = useQuery(["transAll", duration], () => getAllTransactions(duration));
 
   const data = {
     labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
