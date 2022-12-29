@@ -52,7 +52,7 @@ const CreateTransaction = () => {
     onSuccess: () => {
       queryClient.invalidateQueries(["transactions"]);
       toast("Succesfully created new transaction!");
-      navigate("/transactions");
+      navigate("/dashboard/transactions");
     },
     onError: () => {
       toast("Something went wrong!");

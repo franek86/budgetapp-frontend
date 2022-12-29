@@ -29,13 +29,12 @@ import { useThemeContext } from "../../context/ThemeContext";
 import { useTransactionContext } from "../../context/TransactionsContext";
 
 const Transactions = () => {
-  const isDesktop = useMediaQuery('(min-width: 1200px)');
+  const isDesktop = useMediaQuery("(min-width: 1200px)");
 
   const queryClient = useQueryClient();
   const { checkedState } = useFilterContext();
   const { toggleModal, closeModal } = useThemeContext();
   const { transactionId } = useTransactionContext();
-
 
   const [page, setPage] = useState(0);
   const [perPage, setPerPage] = useState(10);
@@ -87,7 +86,7 @@ const Transactions = () => {
 
   const handleDateDuration = (value) => {
     setDuration(value.value);
-    setSearchDate([value.value, DateTime.utc().toISO()])
+    setSearchDate([value.value, DateTime.utc().toISO()]);
   };
 
   const handleSearch = (e) => {
@@ -100,7 +99,7 @@ const Transactions = () => {
     let endDate = date[1].toISOString();
     setDuration(stratDate);
     setSearchDate([stratDate, endDate]);
-  }
+  };
 
   const handleDeleteTransaction = (transactionId) => {
     mutate(transactionId);
@@ -110,8 +109,6 @@ const Transactions = () => {
     }, 1000);
   };
 
-
-
   if (isError) {
     return <span>Error: {error.message}</span>;
   }
@@ -120,19 +117,18 @@ const Transactions = () => {
     <>
       <div className='flex align-center justify-between'>
         <Title>Transactions</Title>
-        <Link to='/transactions/create' className='flex align-center justify-between transaction_link_create'>
+        <Link to='create' className='flex align-center justify-between transaction_link_create'>
           <span>Create</span>
           <MdOutlineCreateNewFolder size='30' />
         </Link>
       </div>
 
-      <section className={`grid column-gap mt-3 ${ isDesktop ? 'column-filter' : 'column-1'}`}>
-
-        <div className={`${isDesktop ? 'transaction_filter' : 'mobile_transaction_filter'} ${toggleFilter ? 'open_filter' : ''}`}>
-          <div className="flex justify-between">
+      <section className={`grid column-gap mt-3 ${isDesktop ? "column-filter" : "column-1"}`}>
+        <div className={`${isDesktop ? "transaction_filter" : "mobile_transaction_filter"} ${toggleFilter ? "open_filter" : ""}`}>
+          <div className='flex justify-between'>
             <h4 className='mb-3'>Filters</h4>
-            <div className="close_icon"  onClick={() => setToggleFilter(!toggleFilter)}>
-              <MdClose size={30} fill="#fff"/>
+            <div className='close_icon' onClick={() => setToggleFilter(!toggleFilter)}>
+              <MdClose size={30} fill='#fff' />
             </div>
           </div>
 
@@ -142,14 +138,18 @@ const Transactions = () => {
           <Filters dataFilter={dataCat} isErrorFilter={isErrorCat} isLoadFilter={isLoadingCat} errorFilter={errorCat} />
           <h5 className='mt-2'>By dates</h5>
           <DateRangePicker id='date_input' className='form_date' name='date' format='dd-MM-y' value={searchDate} onChange={handleChangeDate} calendarIcon={false} clearIcon={false} />
-        </div> 
+        </div>
 
         {isLoading ? (
           <Loader />
         ) : (
           <section>
             <div className='transaction_header'>
-              {!isDesktop && <div className="filter_icon" onClick={() => setToggleFilter(!toggleFilter)}><BiFilterAlt size="25" fill="#fff"/></div>}
+              {!isDesktop && (
+                <div className='filter_icon' onClick={() => setToggleFilter(!toggleFilter)}>
+                  <BiFilterAlt size='25' fill='#fff' />
+                </div>
+              )}
 
               <div className='flex align-center'>
                 <label className='mr-1 font-12 text-color'>Last:</label>
@@ -205,11 +205,11 @@ const Transactions = () => {
               />
             )}
 
-            {data.data.length < 1 && 
-              <div className="mt-4">
+            {data.data.length < 1 && (
+              <div className='mt-4'>
                 <h1>Transaction not found.</h1>
               </div>
-            }
+            )}
           </section>
         )}
       </section>
