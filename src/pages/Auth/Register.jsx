@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import FormInput from "../../components/FormInput/FormInput.jsx";
 import MainTemplate from "../../components/Templates/MainTemplate.jsx";
 import Title from "../../components/Title/Title.jsx";
+import Loader from "../../components/Loader/Loader.jsx";
 
 import { register } from "../../querys/authQuery.js";
 import { useMutation } from "@tanstack/react-query";
@@ -30,9 +31,12 @@ const Register = () => {
     setValues({ ...values, [e.target.name]: e.target.value });
   };
 
-  const { mutateAsync } = useMutation(register, {
-    onSuccess: () => {
-      navigate("/");
+  const { isLoading, mutateAsync } = useMutation(register, {
+    mutationFn: register,
+    onSuccess: (data) => {
+      if (data !== undefined) {
+        navigate("/");
+      }
     },
   });
 
@@ -60,9 +64,14 @@ const Register = () => {
             onTogglePassword={onChangePassword}
           />
           <div className='form_group'>
-            <button className='form_btn' type='submit'>
-              Register
-            </button>
+            {isLoading ? (
+              <Loader />
+            ) : (
+              <button className='form_btn' type='submit'>
+                Register
+              </button>
+            )}
+
             <div className='text-color mt-1 font-500'>
               Are you member? <Link to='/'>Login</Link>
             </div>

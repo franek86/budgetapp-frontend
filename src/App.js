@@ -1,6 +1,5 @@
 import "./App.scss";
 import { Routes, Route, Navigate } from "react-router-dom";
-import "react-toastify/dist/ReactToastify.css";
 
 import Home from "./pages/Home/Home";
 import Transactions from "./pages/Transactions/Transactions";
