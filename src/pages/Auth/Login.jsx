@@ -19,7 +19,6 @@ const Login = () => {
   const from = location.state?.from?.pathname || "/dashboard";
 
   const [togglePassword, setTooglePassword] = useState(false);
-  const [formErrors, setFormErrors] = useState({});
 
   const onChangePassword = () => {
     setTooglePassword(!togglePassword);
@@ -38,35 +37,17 @@ const Login = () => {
   };
   const { dispatch } = useAuthContext();
 
-  const { isError, error, mutateAsync } = useMutation(login, {
+  const { mutateAsync } = useMutation(login, {
     onSuccess: (data) => {
       dispatch({ type: SET_USER, payload: data });
-      addUserToLocalStorage(data);
+      data && addUserToLocalStorage(data);
       navigate(from, { replace: true });
     },
   });
 
-  if (isError) {
-    console.log(error.response.data.message);
-  }
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    setFormErrors(validate(values));
     mutateAsync({ username: values.username, password: values.password });
-  };
-
-  const validate = (values) => {
-    const handleErrors = {};
-
-    if (!values.username) {
-      handleErrors.username = "Username is required!";
-    }
-
-    if (!values.password) {
-      handleErrors.password = "Password is required";
-    }
-    return handleErrors;
   };
 
   return (
@@ -74,7 +55,7 @@ const Login = () => {
       <div className='main container_sm m-auto flex flex-column justify-center'>
         <Title>Login</Title>
         <form className='form_wrapper' onSubmit={handleSubmit}>
-          <FormInput type='text' name='username' value={values.username} label='Username' id='username' onChange={handleOnChange} errorMessage={formErrors.username} />
+          <FormInput type='text' name='username' value={values.username} label='Username' id='username' onChange={handleOnChange} />
           <FormInput
             type={togglePassword ? "text" : "password"}
             name='password'
@@ -84,7 +65,6 @@ const Login = () => {
             icon={changePasswordIcon()}
             onChange={handleOnChange}
             onTogglePassword={onChangePassword}
-            errorMessage={formErrors.password}
           />
           <div className='form_group'>
             <button className='form_btn' type='submit'>
