@@ -4,6 +4,7 @@ import "./home.scss";
 import Title from "../../components/Title/Title";
 import DoughnutChart from "../../components/Charts/DoughnutChart";
 import LatestTransactions from "./LatestTransactions/LatestTransactions";
+import CreateBudget from "../../components/Budget/CreateBudget.jsx";
 
 const Home = () => {
   return (
@@ -12,6 +13,7 @@ const Home = () => {
       <div className='home_grid row-gap column-gap'>
         <div className='card'>
           <h4>total income</h4>
+          <CreateBudget />
         </div>
         <div className='card'>
           <h4>total speding</h4>

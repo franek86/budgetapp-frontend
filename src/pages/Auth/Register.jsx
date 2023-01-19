@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 import FormInput from "../../components/FormInput/FormInput.jsx";
 import MainTemplate from "../../components/Templates/MainTemplate.jsx";
 import Title from "../../components/Title/Title.jsx";
-import Loader from "../../components/Loader/Loader.jsx";
 
 import { register } from "../../querys/authQuery.js";
 import { useMutation } from "@tanstack/react-query";
@@ -14,6 +14,7 @@ const Register = () => {
   const navigate = useNavigate();
 
   const [togglePassword, setTooglePassword] = useState(false);
+
   const onChangePassword = () => {
     setTooglePassword(!togglePassword);
   };
@@ -25,13 +26,14 @@ const Register = () => {
   const [values, setValues] = useState({
     username: "",
     password: "",
+    confirmPassword: "",
     email: "",
   });
   const handleOnChange = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
   };
 
-  const { isLoading, mutateAsync } = useMutation(register, {
+  const { mutateAsync } = useMutation(register, {
     mutationFn: register,
     onSuccess: (data) => {
       if (data !== undefined) {
@@ -42,7 +44,12 @@ const Register = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    mutateAsync({ username: values.username, password: values.password, email: values.email });
+
+    if (values.password !== values.confirmPassword) {
+      toast.error("Confirm password does not match");
+    } else {
+      mutateAsync({ username: values.username, password: values.password, email: values.email });
+    }
   };
 
   return (
@@ -63,14 +70,12 @@ const Register = () => {
             onChange={handleOnChange}
             onTogglePassword={onChangePassword}
           />
+          <FormInput type='password' name='confirmPassword' value={values.confirmPassword} label='Confirm password' id='confirm-password' onChange={handleOnChange} />
+
           <div className='form_group'>
-            {isLoading ? (
-              <Loader />
-            ) : (
-              <button className='form_btn' type='submit'>
-                Register
-              </button>
-            )}
+            <button className='form_btn' type='submit'>
+              Register
+            </button>
 
             <div className='text-color mt-1 font-500'>
               Are you member? <Link to='/'>Login</Link>
