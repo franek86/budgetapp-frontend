@@ -5,6 +5,8 @@ import Title from "../../components/Title/Title";
 import DoughnutChart from "../../components/Charts/DoughnutChart";
 import LatestTransactions from "./LatestTransactions/LatestTransactions";
 import CreateBudget from "../../components/Budget/CreateBudget.jsx";
+import TotalBudget from "../../components/Budget/TotalBudget.jsx";
+import Spending from "../../components/Spending/Spending.jsx";
 
 const Home = () => {
   return (
@@ -12,11 +14,12 @@ const Home = () => {
       <Title>Dashboard</Title>
       <div className='home_grid row-gap column-gap'>
         <div className='card'>
-          <h4>total income</h4>
+          <TotalBudget />
           <CreateBudget />
         </div>
         <div className='card'>
           <h4>total speding</h4>
+          <Spending />
         </div>
         <div className='card'>
           <h4>total speding</h4>

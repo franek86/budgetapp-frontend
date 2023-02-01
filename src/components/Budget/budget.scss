@@ -1,0 +1,15 @@
+.budget_create {
+  position: relative;
+  .form_wrapper {
+    height: 0;
+    visibility: hidden;
+    opacity: 0;
+    transition: all 0.3s ease-in-out;
+
+    &.open {
+      height: 100%;
+      visibility: visible;
+      opacity: 1;
+    }
+  }
+}

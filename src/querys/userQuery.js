@@ -1,4 +1,5 @@
 import { axiosClient } from "../utils/Axios";
+import { getUserFromLocalStorage } from "../utils/LocalStorage.js";
 
 const createUserBudget = async (id, data) => {
   try {
@@ -10,4 +11,18 @@ const createUserBudget = async (id, data) => {
   }
 };
 
-export { createUserBudget };
+const getUser = async (id) => {
+  const access_token = getUserFromLocalStorage();
+  const config = {
+    headers: { Authorization: `Bearer ${access_token.token}` },
+  };
+  try {
+    const response = await axiosClient.get("/user/me", config);
+    const { data } = await response;
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export { createUserBudget, getUser };
