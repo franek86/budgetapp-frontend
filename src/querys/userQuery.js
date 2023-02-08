@@ -2,16 +2,20 @@ import { axiosClient } from "../utils/Axios";
 import { getUserFromLocalStorage } from "../utils/LocalStorage.js";
 
 const createUserBudget = async (id, data) => {
+  const access_token = getUserFromLocalStorage();
+  const config = {
+    headers: { Authorization: `Bearer ${access_token.token}` },
+  };
   try {
-    const response = await axiosClient.patch(`/user/budget/${id}`, data);
-    const updateBudget = await response.data.saveUserBudget;
+    const response = await axiosClient.patch(`/user/budget/${id}`, data, config);
+    const updateBudget = await response.data;
     return updateBudget;
   } catch (error) {
     console.log(error);
   }
 };
 
-const getUser = async (id) => {
+const getUser = async () => {
   const access_token = getUserFromLocalStorage();
   const config = {
     headers: { Authorization: `Bearer ${access_token.token}` },

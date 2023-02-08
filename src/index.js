@@ -10,7 +10,6 @@ import { ThemeProvider } from "./context/ThemeContext";
 import { FilterProvider } from "./context/FilterContext";
 import { TransactionProvider } from "./context/TransactionsContext";
 import { AuthProvider } from "./context/AuthContext.jsx";
-import { UserProvider } from "./context/UserContext.jsx";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 const queryClient = new QueryClient();
@@ -21,12 +20,10 @@ root.render(
         <AuthProvider>
           <TransactionProvider>
             <ThemeProvider>
-              <UserProvider>
-                <FilterProvider>
-                  <App />
-                  <ToastContainer />
-                </FilterProvider>
-              </UserProvider>
+              <FilterProvider>
+                <App />
+                <ToastContainer />
+              </FilterProvider>
             </ThemeProvider>
           </TransactionProvider>
         </AuthProvider>

@@ -16,8 +16,6 @@ import TransactionList from "./TransactionList";
 import Modal from "../../components/Modal/Modal";
 import { ToastContainer, toast } from "react-toastify";
 
-import "./transactions.scss";
-
 import useMediaQuery from "../../hooks/useMediaQuery";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -27,6 +25,8 @@ import { getCategories } from "../../querys/categoriesQuery";
 import { useFilterContext } from "../../context/FilterContext";
 import { useThemeContext } from "../../context/ThemeContext";
 import { useTransactionContext } from "../../context/TransactionsContext";
+
+import "./transactions.scss";
 
 const Transactions = () => {
   const isDesktop = useMediaQuery("(min-width: 1200px)");

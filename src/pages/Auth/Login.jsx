@@ -40,6 +40,7 @@ const Login = () => {
   const { mutateAsync } = useMutation(login, {
     onSuccess: (data) => {
       dispatch({ type: SET_USER, payload: data });
+
       data && addUserToLocalStorage(data);
       navigate(from, { replace: true });
     },

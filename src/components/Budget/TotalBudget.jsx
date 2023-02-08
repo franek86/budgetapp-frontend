@@ -5,7 +5,10 @@ import formatCurrency from "../../utils/FormatCurrency.js";
 import Loader from "../Loader/Loader.jsx";
 
 const TotalBudget = () => {
-  const { data, isLoading } = useQuery(["user"], getUser);
+  const { data, isLoading } = useQuery(["user"], getUser, {
+    cacheTime: 2,
+  });
+
   return (
     <>
       {isLoading ? (

@@ -1,12 +1,12 @@
 import React from "react";
 import formatDate from "../../../utils/LuxonFormat.js";
 import formatCurrency from "../../../utils/FormatCurrency.js";
+import Loader from "../../../components/Loader/Loader";
 
 import { useQuery } from "@tanstack/react-query";
 import { getLatestTransactions } from "../../../querys/transactionsQuery";
 
 import "./latestTransactions.scss";
-import Loader from "../../../components/Loader/Loader";
 
 const LatestTransactions = () => {
   const { data, isLoading } = useQuery(["latestTrans"], getLatestTransactions, { refetchOnWindowFocus: false });

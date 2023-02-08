@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { DateTime } from "luxon";
 import { ToastContainer, toast } from "react-toastify";
 
@@ -14,9 +14,8 @@ import { updateTransaction } from "../../../querys/transactionsQuery";
 import Loader from "../../../components/Loader/Loader";
 
 const EditTransaction = (data) => {
-
   const queryClient = useQueryClient();
-  const { data:catData } = useQuery(["ctgs"], getCategories, { refetchOnWindowFocus: false });
+  const { data: catData } = useQuery(["ctgs"], getCategories, { refetchOnWindowFocus: false });
   //categories in select
   const selectOptions = catData?.map((item) => {
     return {
@@ -43,41 +42,34 @@ const EditTransaction = (data) => {
     setValues({ ...values, date: e });
   };
 
-
-  const { mutate, isSuccess, isError, isLoading } = useMutation(updateTransaction(data._id, values),{
-      onSuccess: () => {
-        toast("Succesfully edit new transaction!");
-      },
-      onError: () => {
-        toast("Something went wrong!");
-      },
-    }
-  );
-
- 
+  const { mutate, isSuccess, isError, isLoading } = useMutation(updateTransaction(data._id, values), {
+    onSuccess: () => {
+      toast("Succesfully edit new transaction!");
+    },
+    onError: () => {
+      toast("Something went wrong!");
+    },
+  });
 
   const handleSubmit = (e) => {
     e.preventDefault();
     mutate(values);
-    queryClient.invalidateQueries({queryKey:["trans"]})
+    queryClient.invalidateQueries({ queryKey: ["trans"] });
   };
 
-
- 
-  if(isLoading){
-    return <Loader />
-  } 
+  if (isLoading) {
+    return <Loader />;
+  }
 
   return (
     <div>
-
       <div className='flex align-center justify-between'>
         <Title>Edit transactions </Title>
       </div>
 
       <form className='form_wrapper' onSubmit={handleSubmit}>
-        <FormInput id='text_input' type='text' name='title' value={values.title} label='Title' placeholder={data.title} onChange={handleOnChange}/>
-        <FormInput id='amount_input' type='number' name='amount' value={values.amount} label='Amount' placeholder={data.amount} onChange={handleOnChange}/>
+        <FormInput id='text_input' type='text' name='title' value={values.title} label='Title' placeholder={data.title} onChange={handleOnChange} />
+        <FormInput id='amount_input' type='number' name='amount' value={values.amount} label='Amount' placeholder={data.amount} onChange={handleOnChange} />
 
         <div className='form_group'>
           <label className='form_label' htmlFor='date_input'>
@@ -98,12 +90,12 @@ const EditTransaction = (data) => {
             Edit
           </button>
         </div>
-      
       </form>
 
-      {isSuccess && <ToastContainer position='top-right' autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme='colored' />}
+      {isSuccess && (
+        <ToastContainer position='top-right' autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme='colored' />
+      )}
       {isError && <ToastContainer position='top-right' autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme='colored' />}
-    
     </div>
   );
 };

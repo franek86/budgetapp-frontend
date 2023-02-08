@@ -8,11 +8,11 @@ import FormInput from "../../../components/FormInput/FormInput";
 import Select from "react-select";
 import DatePicker from "react-date-picker";
 
-import "./createTransaction.scss";
-
 import { getCategories } from "../../../querys/categoriesQuery";
 import { createTransaction } from "../../../querys/transactionsQuery";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+
+import "./createTransaction.scss";
 
 const CreateTransaction = () => {
   const queryClient = useQueryClient();

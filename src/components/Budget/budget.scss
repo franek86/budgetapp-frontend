@@ -11,5 +11,33 @@
       visibility: visible;
       opacity: 1;
     }
+
+    .form_group {
+      display: flex;
+      align-items: center;
+      position: relative;
+
+      .form_label {
+        width: 100%;
+        border-radius: 0;
+
+        .form_input {
+          &::-webkit-input-placeholder,
+          &::-ms-input-placeholder,
+          &::placeholder {
+            opacity: 0.5;
+          }
+        }
+      }
+      .btn {
+        display: flex;
+        align-items: center;
+        height: 100%;
+        position: absolute;
+        right: 0;
+        border: 1px solid var(--fifth-color);
+        border-radius: 0;
+      }
+    }
   }
 }
