@@ -20,7 +20,7 @@ const TransactionList = (item) => {
     date,
     categories: { slug },
   } = item;
-  const { data: singleTrans } = useQuery(["single-trans", id], () => getSingleTransaction(id), { keepPreviousData: false });
+  const { data: singleTrans } = useQuery(["single-trans", id], () => getSingleTransaction(id), { keepPreviousData: false, refetchOnWindowFocus: false });
   const { getTransactionId } = useTransactionContext();
 
   const handleOpenModal = (id) => {

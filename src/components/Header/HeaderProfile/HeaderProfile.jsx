@@ -1,10 +1,12 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { LOGOUT } from "../../../actions.js";
-
 import { HiOutlineUser } from "react-icons/hi";
 import { useThemeContext } from "../../../context/ThemeContext";
 import { useAuthContext } from "../../../context/AuthContext.jsx";
+import { axiosClient } from "../../../utils/Axios.js";
+import { removeUserFromLocalStorage } from "../../../utils/LocalStorage.js";
+import { SET_USER } from "../../../actions.js";
+
 import Dropdown from "../../Dropdowns/Dropdown";
 
 const HeaderProfile = () => {
@@ -16,9 +18,13 @@ const HeaderProfile = () => {
     toggleDropdown();
   };
 
-  const logout = () => {
-    dispatch({ type: LOGOUT });
-    navigate("/");
+  const logout = async () => {
+    try {
+      await axiosClient.post("/auth/logout");
+      dispatch({ type: SET_USER, payload: null });
+      removeUserFromLocalStorage();
+      navigate("/");
+    } catch (error) {}
   };
 
   return (

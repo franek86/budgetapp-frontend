@@ -49,18 +49,23 @@ const Transactions = () => {
     {
       cacheTime: 10,
       keepPreviousData: true,
+      refetchOnWindowFocus: false,
     }
   );
 
-  const { data: dataCat, isLoading: isLoadingCat, isError: isErrorCat, error: errorCat } = useQuery(["categories"], getCategories);
-  const { mutate, isSuccess } = useMutation((id) => deleteTransaction(id), {
-    onSuccess: () => {
-      toast("Succesfully deleted transaction!");
+  const { data: dataCat, isLoading: isLoadingCat, isError: isErrorCat, error: errorCat } = useQuery(["categories"], getCategories, { refetchOnWindowFocus: false });
+  const { mutate, isSuccess } = useMutation(
+    (id) => deleteTransaction(id),
+    {
+      onSuccess: () => {
+        toast("Succesfully deleted transaction!");
+      },
+      onError: () => {
+        toast("Something went wrong!");
+      },
     },
-    onError: () => {
-      toast("Something went wrong!");
-    },
-  });
+    { refetchOnWindowFocus: false }
+  );
 
   const handlePageClick = (e) => {
     let currentPage = e.selected + 1;

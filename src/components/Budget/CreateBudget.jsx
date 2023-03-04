@@ -6,12 +6,13 @@ import { createUserBudget } from "../../querys/userQuery.js";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import "./budget.scss";
-import { useAuthContext } from "../../context/AuthContext.jsx";
+import { getUserFromLocalStorage } from "../../utils/LocalStorage.js";
 
 const CreateBudget = () => {
   const [toggleInput, setToggleInput] = useState(false);
   const [budgetValue, setBudgetValue] = useState({ budget: 0 });
-  const { userId } = useAuthContext();
+
+  const { _id: userId } = getUserFromLocalStorage();
 
   const queryClient = useQueryClient();
 
