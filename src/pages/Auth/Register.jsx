@@ -6,9 +6,7 @@ import { toast } from "react-toastify";
 import FormInput from "../../components/FormInput/FormInput.jsx";
 import MainTemplate from "../../components/Templates/MainTemplate.jsx";
 import Title from "../../components/Title/Title.jsx";
-
-import { register } from "../../querys/authQuery.js";
-import { useMutation } from "@tanstack/react-query";
+import { axiosClient } from "../../utils/Axios.js";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -33,22 +31,21 @@ const Register = () => {
     setValues({ ...values, [e.target.name]: e.target.value });
   };
 
-  const { mutateAsync } = useMutation(register, {
-    mutationFn: register,
-    onSuccess: (data) => {
-      if (data !== undefined) {
-        navigate("/");
-      }
-    },
-  });
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (values.password !== values.confirmPassword) {
-      toast.error("Confirm password does not match");
-    } else {
-      mutateAsync({ username: values.username, password: values.password, email: values.email });
+    try {
+      if (values.password !== values.confirmPassword) {
+        toast.error("Confirm password does not match");
+      } else {
+        const res = await axiosClient.post("/auth/register", { ...values });
+        toast.success(res.data.message);
+        navigate("/");
+      }
+    } catch (error) {
+      if (error.response) {
+        toast.error(error.response.data.message);
+      }
     }
   };
 

@@ -1,5 +1,5 @@
 import { axiosClient } from "../utils/Axios";
-import { getUserFromLocalStorage } from "../utils/LocalStorage.js";
+import { getUserFromLocalStorage, removeUserFromLocalStorage } from "../utils/LocalStorage.js";
 
 const createUserBudget = async (id, data) => {
   const access_token = getUserFromLocalStorage();
@@ -23,7 +23,13 @@ const getUser = async () => {
   try {
     const response = await axiosClient.get("/user/me", config);
     const { data } = await response;
-    return data;
+
+    if (data.data === "token expired") {
+      removeUserFromLocalStorage();
+      window.location.href = "/";
+    } else {
+      return data;
+    }
   } catch (error) {
     console.log(error);
   }

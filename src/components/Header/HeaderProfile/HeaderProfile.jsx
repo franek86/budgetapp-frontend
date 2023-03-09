@@ -24,7 +24,9 @@ const HeaderProfile = () => {
       dispatch({ type: SET_USER, payload: null });
       removeUserFromLocalStorage();
       navigate("/");
-    } catch (error) {}
+    } catch (error) {
+      console.log(error.response.data.message);
+    }
   };
 
   return (

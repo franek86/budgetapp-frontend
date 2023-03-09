@@ -6,18 +6,19 @@ import FormInput from "../../components/FormInput/FormInput.jsx";
 import MainTemplate from "../../components/Templates/MainTemplate.jsx";
 import Title from "../../components/Title/Title.jsx";
 
+import { axiosClient } from "../../utils/Axios.js";
+
 import { addUserToLocalStorage } from "../../utils/LocalStorage.js";
 import { useAuthContext } from "../../context/AuthContext.jsx";
 
-import { login } from "../../querys/authQuery.js";
-import { useMutation } from "@tanstack/react-query";
 import { SET_USER } from "../../actions.js";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/dashboard";
-
+  const { dispatch } = useAuthContext();
   const [togglePassword, setTooglePassword] = useState(false);
 
   const onChangePassword = () => {
@@ -35,20 +36,19 @@ const Login = () => {
   const handleOnChange = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
   };
-  const { dispatch } = useAuthContext();
 
-  const { mutateAsync } = useMutation(login, {
-    onSuccess: (data) => {
-      dispatch({ type: SET_USER, payload: data });
-
-      data && addUserToLocalStorage(data);
-      navigate(from, { replace: true });
-    },
-  });
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    mutateAsync({ username: values.username, password: values.password });
+    try {
+      const { data } = await axiosClient.post("/auth/login", { ...values });
+      dispatch({ type: SET_USER, payload: data });
+      addUserToLocalStorage(data);
+      navigate(from, { replace: true });
+    } catch (error) {
+      if (error.response) {
+        toast.error(error.response.data.message);
+      }
+    }
   };
 
   return (

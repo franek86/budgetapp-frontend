@@ -13,15 +13,19 @@ const DoughnutChart = () => {
 
   useEffect(() => {
     const uniqueCategories = [...new Set(transData?.map((item) => item.categories.slug))];
-
     setCatSlug(uniqueCategories);
   }, [transData]);
+
+  const totalPriceByCategory = catSlug.reduce((acc, categoryName) => {
+    const totalPrice = transData?.filter((product) => product.categories.slug === categoryName).reduce((sum, product) => sum + product.amount, 0);
+    return { ...acc, [categoryName]: totalPrice };
+  }, {});
 
   const data = {
     labels: catSlug,
     datasets: [
       {
-        data: [12, 19],
+        data: Object.values(totalPriceByCategory),
         backgroundColor: ["red", "blue"],
         borderWidth: 1,
       },
