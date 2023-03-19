@@ -57,6 +57,19 @@
         }
       }
 
+      input[type="color"] {
+        padding: 0;
+        width: 200px;
+        height: 50px;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+
+        &:focus {
+          outline: none;
+        }
+      }
+
       .form_date {
         color: var(--fifth-color);
       }

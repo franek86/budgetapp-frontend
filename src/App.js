@@ -6,7 +6,8 @@ import Transactions from "./pages/Transactions/Transactions";
 import CreateTransactions from "./pages/Transactions/CreateTransaction/CreateTransaction";
 import EditTransactions from "./pages/Transactions/EditTransaction/EditTransaction";
 import Wallet from "./pages/Wallet/Wallet";
-import Categories from "./pages/Categories/Categories";
+import Categories from "./pages/Categories/Categories.jsx";
+
 import Profile from "./pages/Profile/Profile";
 import NotFound from "./pages/NotFound/NotFound";
 

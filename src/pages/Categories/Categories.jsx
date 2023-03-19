@@ -1,12 +1,15 @@
-import React from 'react'
-import Title from '../../components/Title/Title'
+import React from "react";
+import CategoryLists from "./CategoryLists.jsx";
+import CreateCategory from "./CreateCategory.jsx";
 
 const Categories = () => {
   return (
-    <div>
-      <Title>Categories</Title>
-    </div>
-  )
-}
+    <div className='grid column-2 column-gap'>
+      <CategoryLists />
 
-export default Categories
+      <CreateCategory />
+    </div>
+  );
+};
+
+export default Categories;
