@@ -4,11 +4,13 @@ import { Doughnut } from "react-chartjs-2";
 
 import { useQuery } from "@tanstack/react-query";
 import { getAllTransactions } from "../../querys/transactionsQuery";
+import { getCategories } from "../../querys/categoriesQuery.js";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const DoughnutChart = () => {
   const { data: transData } = useQuery(["transAll"], () => getAllTransactions());
+  const { data: cats } = useQuery(["allCats"], () => getCategories());
   const [catSlug, setCatSlug] = useState([]);
 
   useEffect(() => {
@@ -21,12 +23,19 @@ const DoughnutChart = () => {
     return { ...acc, [categoryName]: totalPrice };
   }, {});
 
+  const getCatColors = () => {
+    const cat = cats?.map((cat) => cat.legendColor);
+    return cat;
+  };
+
+  console.log(getCatColors());
+
   const data = {
     labels: catSlug,
     datasets: [
       {
         data: Object.values(totalPriceByCategory),
-        backgroundColor: ["red", "blue"],
+        backgroundColor: getCatColors(),
         borderWidth: 1,
       },
     ],

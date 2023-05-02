@@ -18,7 +18,6 @@ const Home = () => {
           <CreateBudget />
         </div>
         <div className='card'>
-          <h4>total speding</h4>
           <Spending />
         </div>
         <div className='card'>
